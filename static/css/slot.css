@@ -1,0 +1,396 @@
+/* =========================
+   slot section
+========================= */
+
+#slot{
+  position: relative;
+  padding: 8px 0 0;
+}
+
+#slot .slot-grid{
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+
+#slot .slot-card{
+  position: relative;
+  padding: 28px;
+  border: var(--line-w, 2px) solid var(--line-strong, #a98fe0);
+  border-radius: calc(var(--r-xl, 32px) + 4px);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.98) 0%, rgba(250,244,255,.96) 52%, rgba(244,251,255,.96) 100%);
+  box-shadow:
+    0 8px 0 rgba(169,143,224,.10),
+    0 18px 30px rgba(169,143,224,.14);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+#slot .slot-card::before{
+  content: "";
+  position: absolute;
+  inset: 8px;
+  border-radius: calc(var(--r-xl, 32px) - 4px);
+  border: 1px solid rgba(255,255,255,.92);
+  pointer-events: none;
+  z-index: 1;
+}
+
+#slot .slot-card::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(
+      -45deg,
+      rgba(212,197,255,.06) 0 12px,
+      rgba(212,197,255,0) 12px 24px
+    );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* decorative objects */
+#slot .slot-card__obj{
+  position: absolute;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  pointer-events: none;
+  z-index: 0;
+  opacity: .72;
+  filter: drop-shadow(0 8px 18px rgba(169,143,224,.10));
+  will-change: transform;
+}
+
+#slot .slot-card--slot .obj-a{
+  top: 16px;
+  right: 18px;
+  width: 58px;
+  aspect-ratio: 1 / 1;
+  background-image: var(--obj-2);
+  animation: slotFloatA 7s ease-in-out infinite;
+}
+
+#slot .slot-card--slot .obj-b{
+  bottom: 18px;
+  left: 20px;
+  width: 76px;
+  aspect-ratio: 1 / 1;
+  background-image: var(--obj-5);
+  opacity: .24;
+  animation: slotFloatB 9s ease-in-out infinite;
+}
+
+#slot .slot-card--refund .obj-c{
+  top: 18px;
+  right: 20px;
+  width: 50px;
+  aspect-ratio: 1 / 1;
+  background-image: var(--obj-3);
+  animation: slotRotateA 30s linear infinite;
+}
+
+#slot .slot-card--refund .obj-d{
+  bottom: 20px;
+  right: 18px;
+  width: 68px;
+  aspect-ratio: 1 / 1;
+  background-image: var(--obj-6);
+  opacity: .22;
+  animation: slotFloatC 8.4s ease-in-out infinite;
+}
+
+/* head */
+#slot .slot-card__head{
+  position: relative;
+  z-index: 2;
+  margin-bottom: 22px;
+  text-align: left;
+}
+
+#slot .slot-card__badge{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 34px;
+  padding: 8px 14px;
+  border: var(--line-w, 2px) solid var(--line-strong, #a98fe0);
+  border-radius: 999px;
+  background: linear-gradient(180deg, #ffffff 0%, #f8efff 100%);
+  box-shadow:
+    0 4px 0 rgba(169,143,224,.10),
+    0 10px 16px rgba(169,143,224,.10);
+  color: var(--primary-strong, #9b78ef);
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+#slot .slot-card__title{
+  margin: 14px 0 0;
+  font-size: clamp(1.6rem, 2.6vw, 2.2rem);
+  line-height: 1.08;
+  letter-spacing: -0.04em;
+  font-weight: 900;
+  color: var(--ink-strong, #2f2743);
+}
+
+#slot .slot-card__desc{
+  margin: 14px 0 0;
+  max-width: 420px;
+  color: var(--ink-soft, #756a92);
+  font-size: .98rem;
+  line-height: 1.8;
+}
+
+/* =========================
+   slot board
+========================= */
+
+#slot .slot-board{
+  position: relative;
+  z-index: 2;
+}
+
+#slot .slot-board__head{
+  display: grid;
+  grid-template-columns: 92px 1fr;
+  gap: 14px;
+  align-items: center;
+  padding: 0 4px 10px;
+  color: var(--ink-faint, #9d95b8);
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+}
+
+#slot .slot-board__body{
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+#slot .slot-row{
+  display: grid;
+  grid-template-columns: 92px 1fr;
+  gap: 14px;
+  align-items: start;
+  padding: 16px;
+  border: 2px solid rgba(169,143,224,.16);
+  border-radius: 22px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.92) 0%, rgba(245,240,255,.88) 100%);
+  box-shadow:
+    0 5px 0 rgba(169,143,224,.08),
+    0 10px 20px rgba(169,143,224,.08);
+}
+
+#slot .slot-month{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 64px;
+  min-height: 42px;
+  padding: 0 12px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #ffffff 0%, #f1ecff 100%);
+  border: 2px solid rgba(169,143,224,.28);
+  color: var(--ink-strong, #2f2743);
+  font-size: 15px;
+  font-weight: 800;
+  box-shadow: 0 4px 0 rgba(169,143,224,.08);
+}
+
+#slot .slot-row__slots{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+#slot .slot-pill{
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 2px solid rgba(169,143,224,.26);
+  background: #fff;
+  box-shadow: 0 4px 0 rgba(169,143,224,.08);
+  font-size: 13px;
+  line-height: 1;
+  font-weight: 800;
+}
+
+#slot .slot-pill__name{
+  color: var(--ink-soft, #756a92);
+}
+
+#slot .slot-pill__value{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 26px;
+  padding: 0 10px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.8);
+}
+
+#slot .slot-pill.is-open{
+  border-color: rgba(157, 207, 242, .36);
+  background: linear-gradient(180deg, #ffffff 0%, #eef8ff 100%);
+}
+
+#slot .slot-pill.is-open .slot-pill__value{
+  color: #4a97cc;
+  background: rgba(167, 216, 255, .22);
+}
+
+#slot .slot-pill.is-closed{
+  border-color: rgba(255, 157, 186, .34);
+  background: linear-gradient(180deg, #ffffff 0%, #fff2f7 100%);
+}
+
+#slot .slot-pill.is-closed .slot-pill__value{
+  color: #c25d85;
+  background: rgba(255, 183, 213, .18);
+}
+
+#slot .slot-pill.is-hold{
+  border-color: rgba(255, 214, 140, .45);
+  background: linear-gradient(
+    180deg,
+    #ffffff 0%,
+    #fff8e9 100%
+  );
+}
+
+#slot .slot-pill.is-hold .slot-pill__value{
+  color: #b9892e;
+  background: rgba(255, 223, 148, .28);
+}
+
+#slot .slot-pill.is-custom{
+  border-color: rgba(169,143,224,.26);
+  background: linear-gradient(180deg, #ffffff 0%, #f5efff 100%);
+}
+
+#slot .slot-pill.is-custom .slot-pill__value{
+  color: var(--primary-strong, #9b78ef);
+  background: rgba(185,150,255,.14);
+}
+
+#slot .slot-pill.is-empty{
+  opacity: .7;
+}
+
+/* =========================
+   refund list
+========================= */
+
+#slot .refund-list{
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+#slot .refund-item{
+  display: grid;
+  grid-template-columns: 1.15fr .85fr;
+  gap: 16px;
+  align-items: center;
+  padding: 16px 18px;
+  border-radius: 22px;
+  border: 2px solid rgba(169,143,224,.16);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.94) 0%, rgba(245,240,255,.9) 100%);
+  box-shadow:
+    0 5px 0 rgba(169,143,224,.08),
+    0 10px 20px rgba(169,143,224,.08);
+}
+
+#slot .refund-item__time{
+  color: var(--ink-strong, #2f2743);
+  font-size: .98rem;
+  line-height: 1.7;
+  font-weight: 800;
+}
+
+#slot .refund-item__value{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  padding: 10px 14px;
+  border-radius: 16px;
+  background: linear-gradient(180deg, #ffffff 0%, #eef8ff 100%);
+  border: 2px solid rgba(157, 207, 242, .28);
+  color: var(--ink, #4a3f64);
+  font-size: .95rem;
+  line-height: 1.5;
+  font-weight: 800;
+  text-align: center;
+  box-shadow: 0 4px 0 rgba(169,143,224,.08);
+}
+
+#slot .slot-card__hint{
+  margin-top: 10px;
+  margin-right: 10px;
+  color: var(--ink-soft, #756a92);
+  font-size: 13px;
+  line-height: 1.6;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  text-align: end;
+}
+
+/* empty / error */
+#slot .slot-empty,
+#slot .slot-error{
+  position: relative;
+  z-index: 2;
+  padding: 18px;
+  border-radius: 20px;
+  border: 2px solid rgba(169,143,224,.18);
+  background: linear-gradient(180deg, #ffffff 0%, #f7f2ff 100%);
+  color: var(--ink-soft, #756a92);
+}
+
+/* =========================
+   motion
+========================= */
+
+@keyframes slotFloatA{
+  0%{ transform: translate3d(0,0,0) rotate(0deg); }
+  50%{ transform: translate3d(4px,-6px,0) rotate(4deg); }
+  100%{ transform: translate3d(0,0,0) rotate(0deg); }
+}
+
+@keyframes slotFloatB{
+  0%{ transform: translate3d(0,0,0) scale(1); }
+  50%{ transform: translate3d(-4px,4px,0) scale(1.03); }
+  100%{ transform: translate3d(0,0,0) scale(1); }
+}
+
+@keyframes slotRotateA{
+  0%{ transform: rotate(0deg); }
+  100%{ transform: rotate(360deg); }
+}
+
+@keyframes slotFloatC{
+  0%{ transform: translate3d(0,0,0); }
+  50%{ transform: translate3d(6px,-5px,0); }
+  100%{ transform: translate3d(0,0,0); }
+}
+
+@media (prefers-reduced-motion: reduce){
+  #slot .slot-card__obj{
+    animation: none !important;
+  }
+}

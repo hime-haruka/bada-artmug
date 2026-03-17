@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>바다님 아트머그</title>
+
+    <link rel="stylesheet" href="./static/css/common.css">
+</head>
+<body>
+    <main class="main">
+        <section class="sec" id="intro"></section>
+        <section class="sec" id="slot"></section>
+        <section class="sec" id="notice"></section>
+
+        <section class="sec" id="process">
+            <div class="process-wrap">
+                <div class="process-panel">
+                <div class="process-obj obj-a" aria-hidden="true"></div>
+                <div class="process-obj obj-b" aria-hidden="true"></div>
+                <div class="process-obj obj-c" aria-hidden="true"></div>
+
+                <div class="process-head">
+                    <span class="process-badge">process</span>
+                    <h2 class="process-title">작업과정</h2>
+                </div>
+
+                <div class="process-body">
+                    <div class="process-grid">
+                    <div class="process-step">
+                        <div class="process-step__num">💬</div>
+                        <div class="process-step__text">문의 및 견적 확인</div>
+                    </div>
+
+                    <div class="process-step">
+                        <div class="process-step__num">💳</div>
+                        <div class="process-step__text">결제</div>
+                    </div>
+
+                    <div class="process-step">
+                        <div class="process-step__num">✏️</div>
+                        <div class="process-step__text">러프 작업</div>
+                    </div>
+
+                    <div class="process-step">
+                        <div class="process-step__num">🔧</div>
+                        <div class="process-step__text">1차 컨펌 및 수정</div>
+                    </div>
+
+                    <div class="process-step">
+                        <div class="process-step__num">🎨</div>
+                        <div class="process-step__text">일러 완성<br>2차 컨펌</div>
+                    </div>
+
+                    <div class="process-step">
+                        <div class="process-step__num">✂️</div>
+                        <div class="process-step__text">파츠 분리 시작</div>
+                    </div>
+
+                    <div class="process-step">
+                        <div class="process-step__num">🧩</div>
+                        <div class="process-step__text">마무리 작업</div>
+                    </div>
+
+                    <div class="process-step is-accent">
+                        <div class="process-step__num">📦</div>
+                        <div class="process-step__text">최종 PSD 파일 전달</div>
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="sec" id="price"></section>
+        <section class="sec" id="collab"></section>
+        <section class="sec" id="portfolio"></section>
+
+        <section class="sec" id="form">
+            <div class="form-wrap">
+                <div class="form-panel">
+                <div class="form-obj obj-a" aria-hidden="true"></div>
+                <div class="form-obj obj-b" aria-hidden="true"></div>
+
+                <div class="form-head">
+                    <span class="form-badge">form</span>
+
+                    <div class="form-kicker" aria-hidden="true">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    </div>
+
+                    <h2 class="form-title">신청양식</h2>
+                    <p class="form-desc">
+                    아래 양식 작성 후 문의 주시면 확인 후 안내드려요.
+                    </p>
+                </div>
+
+                <div class="form-body">
+                    <div class="request-sheet">
+                    <div class="request-row request-row--triple">
+                        <div class="request-cell">
+                        <div class="request-label">신청자 닉네임</div>
+                        <input type="text" id="form-name" class="request-input" placeholder="닉네임 입력">
+                        </div>
+
+                        <div class="request-cell">
+                        <div class="request-label">활동 플랫폼</div>
+                        <input type="text" id="form-platform" class="request-input" placeholder="예: 치지직 / 유튜브 / 트위치">
+                        </div>
+
+                        <div class="request-cell">
+                        <div class="request-label">리깅 작가님 닉네임</div>
+                        <input type="text" id="form-rigger" class="request-input" placeholder="미정일 경우 공란 가능">
+                        </div>
+                    </div>
+
+                    <div class="request-row">
+                        <div class="request-cell">
+                        <div class="request-label">신청 타입</div>
+                        <div class="request-choice-grid" id="form-type-list"></div>
+                        </div>
+                    </div>
+
+                    <div class="request-row">
+                        <div class="request-cell">
+                        <div class="request-label">파츠추가</div>
+                        <div class="request-check-grid" id="form-parts-list"></div>
+                        </div>
+                    </div>
+
+                    <div class="request-row">
+                        <div class="request-cell">
+                        <div class="request-label">추가옵션</div>
+                        <div class="request-check-grid" id="form-options-list"></div>
+                        </div>
+                    </div>
+
+                    <div class="request-row">
+                        <div class="request-cell">
+                        <div class="request-label">캐릭터 정보 (나이/성별/신체특징 등등)</div>
+                        <textarea id="form-character" class="request-textarea" placeholder="캐릭터의 기본 설정, 외형, 포인트, 의상 방향 등을 적어주세요."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="request-row">
+                        <div class="request-cell">
+                        <div class="request-label">공개 일정</div>
+                        <textarea id="form-schedule" class="request-textarea is-sm" placeholder="희망 마감일 / 공개 예정일 / 일정 관련 전달사항"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="request-row">
+                        <div class="request-cell">
+                        <div class="request-label">예상 견적</div>
+
+                        <div class="request-estimate">
+                            <strong class="request-estimate__price" id="form-estimate-price">0원</strong>
+                            <p class="request-estimate__desc">
+                            기본 금액을 단순 합산한 금액입니다. 문의 후 가격이 확정됩니다.
+                            </p>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+
+                    <div class="request-actions">
+                    <button type="button" class="ui-btn is-primary" id="form-copy-btn">양식 복사</button>
+                    <button type="button" class="ui-btn" id="form-reset-btn">초기화</button>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+<script src="./static/js/app.js" defer></script>
+</body>
+</html>
