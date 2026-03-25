@@ -158,13 +158,13 @@ function createIntroTemplate(data) {
   } = data;
 
   const badgeHtml = badge
-    ? `<span class="intro-badge"><span class="aa-text">${escapeHtml(badge)}</span></span>`
+    ? `<span class="intro-badge">${escapeHtml(badge)}</span>`
     : "";
 
   const tagsHtml = tags.length
     ? `
       <ul class="intro-tags">
-        ${tags.map(tag => `<li class="intro-tag">#<span class="aa-text">${escapeHtml(tag)}</span></li>`).join("")}
+        ${tags.map(tag => `<li class="intro-tag">#${escapeHtml(tag)}</li>`).join("")}
       </ul>
     `
     : "";
@@ -183,7 +183,7 @@ function createIntroTemplate(data) {
   const imageHtml = imgUrl
     ? `
       <div class="intro-media">
-        <img src="${imgUrl}" alt="<span class="aa-text">${escapeHtml(name)}</span> 대표 이미지" loading="eager">
+        <img src="${imgUrl}" alt="${escapeHtml(name)} 대표 이미지" loading="eager">
       </div>
     `
     : "";
@@ -198,8 +198,8 @@ function createIntroTemplate(data) {
         <div class="intro-obj obj-6" aria-hidden="true"></div>
       <div class="intro-copy">
         ${badgeHtml}
-        <h1 class="intro-name"><span class="aa-text">${escapeHtml(name)}</span></h1>
-        <p class="intro-desc"><span class="aa-text">${nl2br(desc)}</span></p>
+        <h1 class="intro-name">${escapeHtml(name)}</h1>
+        <p class="intro-desc">${nl2br(desc)}</p>
         ${tagsHtml}
         ${ctaHtml}
       </div>
@@ -338,13 +338,13 @@ function createSlotTable(slotRows = []) {
         ${slotRows.map(row => `
           <div class="slot-row">
             <div class="slot-row__month">
-              <span class="slot-month"><span class="aa-text">${escapeHtml(row.month)}</span>월</span>
+              <span class="slot-month">${escapeHtml(row.month)}월</span>
             </div>
 
             <div class="slot-row__slots">
               ${row.slots.map(slot => `
                 <div class="slot-pill is-${slot.state}">
-                  <span class="slot-pill__value"><span class="aa-text">${escapeHtml(slot.label)}</span></span>
+                  <span class="slot-pill__value">${escapeHtml(slot.label)}</span>
                 </div>
               `).join("")}
             </div>
@@ -364,8 +364,8 @@ function createRefundTable(refundRows = []) {
     <div class="refund-list">
       ${refundRows.map(row => `
         <div class="refund-item">
-          <div class="refund-item__time"><span class="aa-text">${nl2br(row.time)}</span></div>
-          <div class="refund-item__value"><span class="aa-text">${nl2br(row.refund)}</span></div>
+          <div class="refund-item__time">${nl2br(row.time)}</div>
+          <div class="refund-item__value">${nl2br(row.refund)}</div>
         </div>
       `).join("")}
     </div>
@@ -476,8 +476,8 @@ function createNoticeList(noticeRows = []) {
     <div class="notice-list">
       ${noticeRows.map(row => `
         <div class="notice-item">
-          <div class="notice-item__num"><span class="aa-text">${escapeHtml(row.order)}</span></div>
-          <div class="notice-item__text"><span class="aa-text">${nl2br(row.desc)}</span></div>
+          <div class="notice-item__num">${escapeHtml(row.order)}</div>
+          <div class="notice-item__text">${nl2br(row.desc)}</div>
         </div>
       `).join("")}
     </div>
@@ -611,8 +611,8 @@ function createPricePrimaryCard(item) {
         <span class="price-primary-card__badge">Live2D</span>
       </div>
 
-      <h3 class="price-primary-card__title"><span class="aa-text">${escapeHtml(item.title)}</span></h3>
-      <p class="price-primary-card__desc"><span class="aa-text">${escapeHtml(item.desc)}</span></p>
+      <h3 class="price-primary-card__title">${escapeHtml(item.title)}</h3>
+      <p class="price-primary-card__desc">${escapeHtml(item.desc)}</p>
 
       <div class="price-primary-card__price">
         <strong>${formatPriceText(item.price, item.calc_type)}</strong>
@@ -626,7 +626,7 @@ function createPriceOptionCard(item) {
     <article class="price-option-card">
       <div class="price-option-card__head">
         <div class="price-option-card__title-wrap">
-          <h4 class="price-option-card__title"><span class="aa-text">${escapeHtml(item.title)}</span></h4>
+          <h4 class="price-option-card__title">${escapeHtml(item.title)}</h4>
         </div>
         <div class="price-option-card__price">${formatPriceText(item.price, item.calc_type)}</div>
       </div>
@@ -644,7 +644,7 @@ function createPriceOptionGroup(groupTitle, items = []) {
   return `
     <section class="price-group">
       <div class="price-group__head">
-        <h3 class="price-group__title"><span class="aa-text">${escapeHtml(groupTitle)}</span></h3>
+        <h3 class="price-group__title">${escapeHtml(groupTitle)}</h3>
       </div>
 
       <div class="price-option-grid">
@@ -763,14 +763,14 @@ function buildFormChip(name, value, text, priceText, type = "checkbox", checked 
         type="${type}"
         id="${inputId}"
         name="${name}"
-        value="<span class="aa-text">${escapeHtml(value)}</span>"
+        value="${escapeHtml(value)}"
         ${checked ? "checked" : ""}
       >
       <span class="request-chip__label">
         <span class="request-chip__check" aria-hidden="true">✓</span>
         <span class="request-chip__body">
-          <span class="request-chip__text"><span class="aa-text">${escapeHtml(text)}</span></span>
-          <span class="request-chip__price"><span class="aa-text">${escapeHtml(priceText)}</span></span>
+          <span class="request-chip__text">${escapeHtml(text)}</span>
+          <span class="request-chip__price">${escapeHtml(priceText)}</span>
         </span>
       </span>
     </label>
@@ -888,7 +888,7 @@ function updateFormEstimate(rows = []) {
       itemsEl.textContent = "선택된 항목이 없습니다.";
     } else {
       itemsEl.innerHTML = selectedRows
-        .map(row => `• <span class="aa-text">${escapeHtml(row.title)}</span> (<span class="aa-text">${escapeHtml(formatFormPriceText(row.price, row.calc_type))}</span>)`)
+        .map(row => `• ${escapeHtml(row.title)} (${escapeHtml(formatFormPriceText(row.price, row.calc_type))})`)
         .join("<br>");
     }
   }
@@ -1055,7 +1055,7 @@ function createCollabThumb(item) {
   if (item.thumb) {
     return `
       <div class="collab-thumb">
-        <img src="${item.thumb}" alt="<span class="aa-text">${escapeHtml(item.name)}</span> 썸네일" loading="lazy">
+        <img src="${item.thumb}" alt="${escapeHtml(item.name)} 썸네일" loading="lazy">
       </div>
     `;
   }
@@ -1070,7 +1070,7 @@ function createCollabThumb(item) {
 function createCollabLink(item) {
   if (item.link) {
     return `
-      <a class="collab-link" href="<span class="aa-text">${escapeHtml(item.link)}</span>" target="_blank" rel="noopener noreferrer">
+      <a class="collab-link" href="${escapeHtml(item.link)}" target="_blank" rel="noopener noreferrer">
         작가님 페이지 보러가기
       </a>
     `;
@@ -1091,11 +1091,11 @@ function createCollabCard(item) {
 
       <div class="collab-card__body">
         <div class="collab-card__top">
-          <h3 class="collab-name"><span class="aa-text">${escapeHtml(item.name)}</span></h3>
-          ${item.discount ? `<span class="collab-discount"><span class="aa-text">${escapeHtml(item.discount)}</span></span>` : ""}
+          <h3 class="collab-name">${escapeHtml(item.name)}</h3>
+          ${item.discount ? `<span class="collab-discount">${escapeHtml(item.discount)}</span>` : ""}
         </div>
 
-        <p class="collab-text"><span class="aa-text">${nl2br(item.desc)}</span></p>
+        <p class="collab-text">${nl2br(item.desc)}</p>
 
         <div class="collab-actions">
           ${createCollabLink(item)}
@@ -1217,17 +1217,17 @@ function createPortfolioCard(item) {
           href="${item.imageUrl}"
           target="_blank"
           rel="noopener noreferrer"
-          aria-label="<span class="aa-text">${escapeHtml(item.title)}</span> 이미지 크게 보기"
+          aria-label="${escapeHtml(item.title)} 이미지 크게 보기"
         >
-          <img src="${item.imageUrl}" alt="<span class="aa-text">${escapeHtml(item.title)}</span> 포트폴리오 이미지" loading="lazy">
+          <img src="${item.imageUrl}" alt="${escapeHtml(item.title)} 포트폴리오 이미지" loading="lazy">
         </a>
 
         <div class="portfolio-card__body">
           <div class="portfolio-card__top">
-            <h3 class="portfolio-card__title"><span class="aa-text">${escapeHtml(item.title)}</span></h3>
+            <h3 class="portfolio-card__title">${escapeHtml(item.title)}</h3>
           </div>
 
-          <p class="portfolio-card__desc"><span class="aa-text">${nl2br(item.desc)}</span></p>
+          <p class="portfolio-card__desc">${nl2br(item.desc)}</p>
         </div>
       </div>
     </article>

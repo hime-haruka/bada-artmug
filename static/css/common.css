@@ -243,6 +243,11 @@ main {
     margin: 0 auto;
 }
 
+.aa-text {
+  display: inline-block;
+  transform: rotate(0.04deg) translate3d(0,0,0);
+}
+
 /* =========================
    typography
 ========================= */
