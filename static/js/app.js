@@ -1382,7 +1382,7 @@ function createExpressionSectionTemplate(expressionRows = []) {
 
             <h2 class="expression-title">표정 샘플</h2>
             <p class="expression-desc">
-              카드형으로 한 눈에 살펴볼 수 있도록 정리한 샘플입니다. 이미지를 클릭하면 새 창에서 크게 볼 수 있습니다.
+              이미지를 클릭하시면 새 창에서 크게 볼 수 있습니다.
             </p>
           </div>
         </div>
