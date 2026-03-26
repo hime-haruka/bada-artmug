@@ -8,6 +8,7 @@ const SHEET_URLS = {
   notice: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTgItEf1uiKXm2Y9sWKYucwH_XdOzqc5siviWrG6V0AHCThOPV8ltlsGmvoV0UW__EGQy61vOc52Hlq/pub?gid=495564651&single=true&output=csv",
   price: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTgItEf1uiKXm2Y9sWKYucwH_XdOzqc5siviWrG6V0AHCThOPV8ltlsGmvoV0UW__EGQy61vOc52Hlq/pub?gid=1968534914&single=true&output=csv",
   collab: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTgItEf1uiKXm2Y9sWKYucwH_XdOzqc5siviWrG6V0AHCThOPV8ltlsGmvoV0UW__EGQy61vOc52Hlq/pub?gid=51774507&single=true&output=csv",
+  expression: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTgItEf1uiKXm2Y9sWKYucwH_XdOzqc5siviWrG6V0AHCThOPV8ltlsGmvoV0UW__EGQy61vOc52Hlq/pub?gid=626272432&single=true&output=csv",
   portfolio: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTgItEf1uiKXm2Y9sWKYucwH_XdOzqc5siviWrG6V0AHCThOPV8ltlsGmvoV0UW__EGQy61vOc52Hlq/pub?gid=1592596066&single=true&output=csv",
 };
 
@@ -196,6 +197,7 @@ function createIntroTemplate(data) {
         <div class="intro-obj obj-4" aria-hidden="true"></div>
         <div class="intro-obj obj-5" aria-hidden="true"></div>
         <div class="intro-obj obj-6" aria-hidden="true"></div>
+      ${imageHtml}
       <div class="intro-copy">
         ${badgeHtml}
         <h1 class="intro-name">${escapeHtml(name)}</h1>
@@ -203,7 +205,6 @@ function createIntroTemplate(data) {
         ${tagsHtml}
         ${ctaHtml}
       </div>
-      ${imageHtml}
     </div>
   `;
 }
@@ -632,25 +633,51 @@ function createPriceOptionCard(item) {
       </div>
 
       <p class="price-option-card__desc ${item.desc ? "" : "is-empty"}">
-        ${item.desc ? escapeHtml(item.desc) : ""}
+        ${item.desc ? nl2br(item.desc) : ""}
       </p>
     </article>
   `;
 }
 
-function createPriceOptionGroup(groupTitle, items = []) {
-  if (!items.length) return "";
-
+function createAccordionSection(id, title, content, expanded = false) {
   return `
-    <section class="price-group">
-      <div class="price-group__head">
-        <h3 class="price-group__title">${escapeHtml(groupTitle)}</h3>
-      </div>
-
-      <div class="price-option-grid">
-        ${items.map((item, index) => createPriceOptionCard(item, index)).join("")}
+    <section class="ui-accordion ${expanded ? 'is-open' : ''}" data-accordion>
+      <button
+        type="button"
+        class="ui-accordion__trigger"
+        data-accordion-trigger
+        aria-expanded="${expanded ? 'true' : 'false'}"
+        aria-controls="${id}"
+        id="${id}-trigger"
+      >
+        <span class="ui-accordion__title">${escapeHtml(title)}</span>
+        <span class="ui-accordion__icon" aria-hidden="true"></span>
+      </button>
+      <div
+        class="ui-accordion__panel"
+        data-accordion-panel
+        id="${id}"
+        role="region"
+        aria-labelledby="${id}-trigger"
+        ${expanded ? '' : 'hidden'}
+      >
+        <div class="ui-accordion__inner">
+          ${content}
+        </div>
       </div>
     </section>
+  `;
+}
+
+function createPriceAccordionContent(items = []) {
+  if (!items.length) {
+    return `<div class="price-empty">등록된 항목이 없습니다.</div>`;
+  }
+
+  return `
+    <div class="price-option-grid">
+      ${items.map((item) => createPriceOptionCard(item)).join("")}
+    </div>
   `;
 }
 
@@ -680,12 +707,13 @@ function createPriceSectionTemplate(rows = []) {
         </div>
 
         <div class="price-body">
-          <div class="price-primary-grid">
-            ${primaryItems.map(createPricePrimaryCard).join("")}
-          </div>
-
-          ${createPriceOptionGroup("파츠 추가", partsItems)}
-          ${createPriceOptionGroup("추가 옵션", optionItems)}
+          ${createAccordionSection(
+            'price-live2d',
+            'Live2D 일러스트',
+            `<div class="price-primary-grid">${primaryItems.map(createPricePrimaryCard).join("")}</div>`
+          )}
+          ${createAccordionSection('price-parts', '파츠 추가', createPriceAccordionContent(partsItems))}
+          ${createAccordionSection('price-options', '추가 옵션', createPriceAccordionContent(optionItems))}
         </div>
       </div>
     </div>
@@ -711,6 +739,7 @@ function renderPriceSection(targetSelector, rows) {
   }
 
   target.innerHTML = createPriceSectionTemplate(normalizedRows);
+  initAccordions(target);
 }
 
 /* =========================
@@ -1084,24 +1113,47 @@ function createCollabLink(item) {
   `;
 }
 
-function createCollabCard(item) {
+function createCollabAccordion(item, index) {
+  const panelId = `collab-panel-${index + 1}`;
+  const expanded = index === 0;
+
   return `
-    <article class="collab-card">
-      ${createCollabThumb(item)}
-
-      <div class="collab-card__body">
-        <div class="collab-card__top">
-          <h3 class="collab-name">${escapeHtml(item.name)}</h3>
-          ${item.discount ? `<span class="collab-discount">${escapeHtml(item.discount)}</span>` : ""}
-        </div>
-
-        <p class="collab-text">${nl2br(item.desc)}</p>
-
-        <div class="collab-actions">
-          ${createCollabLink(item)}
+    <section class="ui-accordion collab-accordion ${expanded ? 'is-open' : ''}" data-accordion>
+      <button
+        type="button"
+        class="ui-accordion__trigger collab-accordion__trigger"
+        data-accordion-trigger
+        aria-expanded="${expanded ? 'true' : 'false'}"
+        aria-controls="${panelId}"
+        id="${panelId}-trigger"
+      >
+        <span class="collab-accordion__headline">
+          <span class="collab-accordion__name">${escapeHtml(item.name)}</span>
+          ${item.discount ? `<span class="collab-discount">${escapeHtml(item.discount)}</span>` : ''}
+        </span>
+        <span class="ui-accordion__icon" aria-hidden="true"></span>
+      </button>
+      <div
+        class="ui-accordion__panel"
+        data-accordion-panel
+        id="${panelId}"
+        role="region"
+        aria-labelledby="${panelId}-trigger"
+        ${expanded ? '' : 'hidden'}
+      >
+        <div class="ui-accordion__inner">
+          <article class="collab-card">
+            ${createCollabThumb(item)}
+            <div class="collab-card__body">
+              <p class="collab-text">${nl2br(item.desc)}</p>
+              <div class="collab-actions">
+                ${createCollabLink(item)}
+              </div>
+            </div>
+          </article>
         </div>
       </div>
-    </article>
+    </section>
   `;
 }
 
@@ -1130,8 +1182,8 @@ function createCollabSectionTemplate(collabRows = []) {
         </div>
 
         <div class="collab-body">
-          <div class="collab-grid">
-            ${collabRows.map(createCollabCard).join("")}
+          <div class="collab-accordion-list">
+            ${collabRows.map((item, index) => createCollabAccordion(item, index)).join("")}
           </div>
         </div>
       </section>
@@ -1152,6 +1204,7 @@ function renderCollabSection(targetSelector, rows) {
 
   const normalizedRows = normalizeCollabRows(rows);
   target.innerHTML = createCollabSectionTemplate(normalizedRows);
+  initAccordions(target);
 }
 
 /* =========================
@@ -1177,6 +1230,218 @@ async function initCollabSection() {
 }
 
 document.addEventListener("DOMContentLoaded", initCollabSection);
+
+
+
+/* =========================
+   accordion helpers
+========================= */
+
+function setAccordionState(accordion, expanded, { immediate = false } = {}) {
+  if (!accordion) return;
+
+  const trigger = accordion.querySelector('[data-accordion-trigger]');
+  const panel = accordion.querySelector('[data-accordion-panel]');
+  if (!trigger || !panel) return;
+
+  const content = panel.firstElementChild;
+  const duration = 280;
+
+  if (panel._accordionAnimationCleanup) {
+    panel._accordionAnimationCleanup();
+    panel._accordionAnimationCleanup = null;
+  }
+
+  accordion.classList.toggle('is-open', expanded);
+  trigger.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+  panel.style.overflow = 'hidden';
+
+  if (immediate) {
+    panel.hidden = !expanded;
+    panel.style.height = expanded ? 'auto' : '0px';
+    panel.style.opacity = expanded ? '1' : '0';
+    panel.style.transition = '';
+    return;
+  }
+
+  const startHeight = panel.hidden ? 0 : panel.offsetHeight;
+  panel.hidden = false;
+  const targetHeight = expanded ? (content ? content.offsetHeight : panel.scrollHeight) : 0;
+
+  panel.style.height = `${startHeight}px`;
+  panel.style.opacity = expanded ? '0' : '1';
+  panel.offsetHeight;
+  panel.style.transition = `height ${duration}ms ease, opacity ${duration}ms ease`;
+  panel.style.height = `${targetHeight}px`;
+  panel.style.opacity = expanded ? '1' : '0';
+
+  const onDone = (event) => {
+    if (event && event.target !== panel) return;
+    panel.removeEventListener('transitionend', onDone);
+    panel.style.transition = '';
+    panel.style.height = expanded ? 'auto' : '0px';
+    panel.style.opacity = expanded ? '1' : '0';
+    panel.hidden = !expanded;
+    panel._accordionAnimationCleanup = null;
+  };
+
+  panel._accordionAnimationCleanup = () => {
+    panel.removeEventListener('transitionend', onDone);
+    panel.style.transition = '';
+  };
+
+  panel.addEventListener('transitionend', onDone);
+}
+
+function initAccordions(root = document) {
+  root.querySelectorAll('[data-accordion]').forEach((accordion) => {
+    const trigger = accordion.querySelector('[data-accordion-trigger]');
+    const panel = accordion.querySelector('[data-accordion-panel]');
+    if (!trigger || !panel || trigger.dataset.accordionBound === 'true') return;
+
+    trigger.dataset.accordionBound = 'true';
+    setAccordionState(accordion, accordion.classList.contains('is-open'), { immediate: true });
+
+    trigger.addEventListener('click', () => {
+      const parent = accordion.parentElement;
+      const isOpen = accordion.classList.contains('is-open');
+
+      if (parent) {
+        parent.querySelectorAll(':scope > [data-accordion]').forEach(item => {
+          if (item !== accordion) setAccordionState(item, false);
+        });
+      }
+
+      setAccordionState(accordion, !isOpen);
+    });
+  });
+}
+
+
+/* =========================
+   expression helpers
+========================= */
+
+function normalizeExpressionRows(rows = []) {
+  return rows
+    .filter(row => row && (row.title || row.image_url))
+    .map((row, index) => ({
+      order: Number(row.order || index + 1) || index + 1,
+      title: String(row.title || "").trim(),
+      imageUrl: driveToDirectUrl(row.image_url || "")
+    }))
+    .sort((a, b) => a.order - b.order);
+}
+
+/* =========================
+   expression templates
+========================= */
+
+function createExpressionCard(item) {
+  return `
+    <article class="expression-item" data-expression-item data-order="${item.order}">
+      <div class="expression-card">
+        <a
+          class="expression-card__media"
+          href="${item.imageUrl}"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="${escapeHtml(item.title)} 이미지 크게 보기"
+        >
+          <img src="${item.imageUrl}" alt="${escapeHtml(item.title)} 표정 샘플 이미지" loading="lazy">
+        </a>
+
+        <div class="expression-card__body">
+          <h3 class="expression-card__title">${escapeHtml(item.title)}</h3>
+        </div>
+      </div>
+    </article>
+  `;
+}
+
+function createExpressionSectionTemplate(expressionRows = []) {
+  if (!expressionRows.length) {
+    return `<div class="expression-empty">등록된 표정 샘플 정보가 없습니다.</div>`;
+  }
+
+  return `
+    <div class="expression-wrap">
+      <section class="expression-panel">
+        <div class="expression-obj obj-a" aria-hidden="true"></div>
+        <div class="expression-obj obj-b" aria-hidden="true"></div>
+        <div class="expression-obj obj-c" aria-hidden="true"></div>
+
+        <div class="expression-head">
+          <div class="expression-head__copy">
+            <span class="expression-badge">expression sample</span>
+
+            <div class="expression-dots" aria-hidden="true">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+
+            <h2 class="expression-title">표정 샘플</h2>
+            <p class="expression-desc">
+              카드형으로 한 눈에 살펴볼 수 있도록 정리한 샘플입니다. 이미지를 클릭하면 새 창에서 크게 볼 수 있습니다.
+            </p>
+          </div>
+        </div>
+
+        <div class="expression-body">
+          <div class="expression-grid">
+            ${expressionRows.map(createExpressionCard).join("")}
+          </div>
+        </div>
+      </section>
+    </div>
+  `;
+}
+
+/* =========================
+   expression renderer
+========================= */
+
+function renderExpressionSection(targetSelector, rows) {
+  const target = document.querySelector(targetSelector);
+  if (!target) {
+    console.warn(`[renderExpressionSection] target not found: ${targetSelector}`);
+    return;
+  }
+
+  const normalizedRows = normalizeExpressionRows(rows);
+
+  if (!normalizedRows.length) {
+    target.innerHTML = `<div class="expression-empty">표시할 표정 샘플 데이터가 없습니다.</div>`;
+    return;
+  }
+
+  target.innerHTML = createExpressionSectionTemplate(normalizedRows);
+}
+
+/* =========================
+   init
+========================= */
+
+async function initExpressionSection() {
+  try {
+    const rows = await fetchSheetCsv(SHEET_URLS.expression);
+    renderExpressionSection("#expression", rows);
+  } catch (error) {
+    console.error("[initExpressionSection] failed:", error);
+
+    const target = document.querySelector("#expression");
+    if (target) {
+      target.innerHTML = `
+        <div class="expression-error">
+          표정 샘플 데이터를 불러오지 못했습니다.
+        </div>
+      `;
+    }
+  }
+}
+
+document.addEventListener("DOMContentLoaded", initExpressionSection);
 
 
 /* =========================

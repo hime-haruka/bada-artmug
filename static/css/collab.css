@@ -183,10 +183,10 @@
   padding: 0 28px 28px;
 }
 
-#collab .collab-grid{
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
+#collab .collab-accordion-list{
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
 }
 
 /* =========================
@@ -398,4 +398,36 @@
 @keyframes collabRotateA{
   0%{ transform: rotate(0deg); }
   100%{ transform: rotate(360deg); }
+}
+
+#collab .collab-accordion__trigger{
+  background: transparent;
+}
+
+#collab .collab-accordion__headline{
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px 12px;
+}
+
+#collab .collab-accordion__name,
+#collab .collab-title,
+#collab .collab-name{
+  font-weight: 700;
+}
+
+#collab .collab-card{
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
+}
+
+#collab .collab-card__body{
+  padding: 20px 22px 22px;
+}
+
+@media (max-width: 768px){
+  #collab .collab-card{
+    grid-template-columns: 1fr;
+  }
 }

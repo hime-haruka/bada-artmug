@@ -184,6 +184,9 @@
   position: relative;
   z-index: 2;
   padding: 0 28px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
 }
 
 #price .price-primary-grid{
@@ -382,4 +385,30 @@
 @keyframes priceRotateA{
   0%{ transform: rotate(0deg); }
   100%{ transform: rotate(360deg); }
+}
+
+#price .ui-accordion__trigger{
+  background: transparent;
+}
+
+#price .price-option-grid{
+  margin-top: 4px;
+}
+
+#price .price-option-card__title,
+#price .price-primary-card__title,
+#price .price-title{
+  font-weight: 700;
+}
+
+#price .price-primary-card__price strong,
+#price .price-option-card__price{
+  font-weight: 700;
+}
+
+@media (max-width: 768px){
+  #price .price-primary-grid,
+  #price .price-option-grid{
+    grid-template-columns: 1fr;
+  }
 }

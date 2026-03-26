@@ -9,10 +9,11 @@
 
 #intro .intro-inner{
   position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-  padding: 26px;
+  display: grid;
+  grid-template-columns: 240px minmax(0, 1fr);
+  align-items: center;
+  gap: 28px;
+  padding: 30px;
   border: var(--line-w, 2px) solid var(--line-strong, #a98fe0);
   border-radius: calc(var(--r-2xl, 40px) + 4px);
   background:
@@ -20,8 +21,6 @@
   box-shadow: var(--shadow-md, 0 7px 0 rgba(169,143,224,.10), 0 16px 28px rgba(169,143,224,.14));
   overflow: hidden;
   isolation: isolate;
-  align-items:center;
-  text-align:center;
 }
 
 #intro .intro-inner::before{
@@ -52,10 +51,14 @@
    image
 ========================= */
 #intro .intro-media {
-    width: 300px;
-    height: 300px;
-    border-radius: 50%;
+    position: relative;
+    z-index: 2;
+    width: 240px;
+    height: 240px;
+    border-radius: 28px;
     overflow: hidden;
+    border: 2px solid rgba(169,143,224,.18);
+    box-shadow: 0 8px 20px rgba(169,143,224,.12);
 }
 
 #intro .intro-media img{
@@ -71,12 +74,12 @@
 
 #intro .intro-copy{
   position: relative;
-  order: 2;
   z-index: 2;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  padding: 2px 6px 4px;
+  align-items: flex-start;
+  padding: 4px 4px 4px 0;
+  text-align: left;
 }
 
 #intro .intro-badge{
@@ -92,8 +95,8 @@
     0 4px 0 rgba(169,143,224,.12),
     0 10px 18px rgba(169,143,224,.10);
   color: var(--primary-strong, #9b78ef);
-  font-size: 14px;
-  font-weight: 800;
+  font-size: 15px;
+  font-weight: 700;
   line-height: 1;
   letter-spacing: -0.02em;
 }
@@ -103,10 +106,10 @@
   display: inline-block;
   max-width: 100%;
   margin-top: 14px;
-  font-size: clamp(2rem, 5vw, 4rem);
+  font-size: clamp(2.2rem, 5vw, 4.2rem);
   line-height: 1.02;
   letter-spacing: -0.05em;
-  font-weight: 900;
+  font-weight: 700;
   color: transparent;
   background: linear-gradient(135deg, #b28cff 0%, #caa8ff 28%, #9edcff 62%, #84c8ff 100%);
   -webkit-background-clip: text;
@@ -131,8 +134,8 @@
 
 #intro .intro-desc{
   margin-top: 22px;
-  max-width: 720px;
-  font-size: 1rem;
+  max-width: 680px;
+  font-size: 1.08rem;
   line-height: 1.85;
   letter-spacing: -0.02em;
   color: var(--ink-soft, #756a92);
@@ -157,8 +160,8 @@
     0 4px 0 rgba(169,143,224,.10),
     0 8px 16px rgba(169,143,224,.10);
   color: var(--ink, #4a3f64);
-  font-size: 14px;
-  font-weight: 800;
+  font-size: 15px;
+  font-weight: 700;
   line-height: 1;
   letter-spacing: -0.02em;
 }
@@ -216,7 +219,7 @@
 #intro .intro-actions{
   display:flex;
   flex-wrap:wrap;
-  justify-content:center;
+  justify-content:flex-start;
   gap:12px;
   margin-top:26px;
 }
@@ -224,7 +227,7 @@
 #intro .intro-btn{
   display:inline-flex;
   align-items:center;
-  justify-content:center;
+  justify-content:flex-start;
   min-height:46px;
   padding:0 20px;
   border-radius:999px;
@@ -504,5 +507,27 @@
   }
   100%{
     transform: translate3d(0,0,0) scale(1);
+  }
+}
+
+@media (max-width: 768px){
+  #intro .intro-inner{
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 24px;
+  }
+
+  #intro .intro-media{
+    width: min(220px, 100%);
+    height: min(220px, 100vw - 72px);
+    margin: 0 auto;
+  }
+
+  #intro .intro-copy,
+  #intro .intro-actions,
+  #intro .intro-tags{
+    align-items: center;
+    text-align: center;
+    justify-content: center;
   }
 }
