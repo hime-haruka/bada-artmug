@@ -193,7 +193,6 @@ function createIntroTemplate(data) {
     <div class="intro-inner">
         <div class="intro-obj obj-1" aria-hidden="true"></div>
         <div class="intro-obj obj-2" aria-hidden="true"></div>
-        <div class="intro-obj obj-3" aria-hidden="true"></div>
         <div class="intro-obj obj-4" aria-hidden="true"></div>
         <div class="intro-obj obj-5" aria-hidden="true"></div>
         <div class="intro-obj obj-6" aria-hidden="true"></div>
