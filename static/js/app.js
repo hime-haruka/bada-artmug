@@ -1382,7 +1382,7 @@ function createExpressionSectionTemplate(expressionRows = []) {
 
             <h2 class="expression-title">표정 샘플</h2>
             <p class="expression-desc">
-              이미지를 클릭하시면 새 창에서 크게 볼 수 있습니다.
+              카드형으로 한 눈에 살펴볼 수 있도록 정리한 샘플입니다. 이미지를 클릭하면 새 창에서 크게 볼 수 있습니다.
             </p>
           </div>
         </div>
@@ -1702,3 +1702,30 @@ async function initPortfolioSection() {
 }
 
 document.addEventListener("DOMContentLoaded", initPortfolioSection);
+
+function sendHeightToParent() {
+  const height = document.documentElement.scrollHeight;
+
+  window.parent.postMessage(
+    { type: "ARTMUG_IFRAME_HEIGHT", height },
+    "*"
+  );
+}
+
+window.addEventListener("load", () => {
+  setTimeout(sendHeightToParent, 300);
+});
+
+window.addEventListener("resize", () => {
+  sendHeightToParent();
+});
+
+const observer = new MutationObserver(() => {
+  sendHeightToParent();
+});
+
+observer.observe(document.body, {
+  childList: true,
+  subtree: true,
+  attributes: true
+});

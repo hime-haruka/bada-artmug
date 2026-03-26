@@ -179,3 +179,96 @@
 <script src="./static/js/app.js" defer></script>
 </body>
 </html>
+
+<script>
+(function () {
+
+  /* -----------------------
+     0) 더보기 제거
+  ----------------------- */
+  function killButtons(root = document) {
+    root.querySelectorAll('.btn_open_btn, .btn_open, .btn_close').forEach(el => el.remove());
+  }
+
+  function unlockDetail() {
+    const box = document.querySelector('.detailinfo');
+    if (!box) return;
+
+    box.classList.remove('showstep1');
+    box.style.maxHeight = 'none';
+    box.style.overflow = 'visible';
+
+    const content = box.querySelector('.showcontent');
+    if (content) {
+      content.style.maxHeight = 'none';
+      content.style.overflow = 'visible';
+    }
+  }
+
+  function stripListeners() {
+    document.querySelectorAll('.btn_open_btn, .btn_open, .btn_close').forEach(btn => {
+      const clone = btn.cloneNode(true);
+      if (btn.parentNode) btn.parentNode.replaceChild(clone, btn);
+    });
+  }
+
+  function hardBlockClicks() {
+    document.addEventListener('click', function (e) {
+      const bad = e.target.closest('.btn_open_btn, .btn_open, .btn_close');
+      if (bad) {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        e.preventDefault();
+      }
+    }, true);
+  }
+
+  function neutralize() {
+    killButtons();
+    stripListeners();
+    unlockDetail();
+    hardBlockClicks();
+  }
+
+  /* -----------------------
+     1) iframe 찾기 (name 기반)
+  ----------------------- */
+  function getIframe() {
+    const stage = document.querySelector('[name="stage"]');
+    if (!stage) return null;
+    return stage.querySelector('iframe');
+  }
+
+  /* -----------------------
+     2) 높이 자동 반영
+  ----------------------- */
+  function bindIframeAutoHeight() {
+    window.addEventListener('message', function (e) {
+      if (!e.data || e.data.type !== 'ARTMUG_IFRAME_HEIGHT') return;
+
+      const frame = getIframe();
+      if (!frame) return;
+
+      const nextHeight = Number(e.data.height) || 0;
+      if (nextHeight > 0) {
+        frame.style.height = (nextHeight + 20) + 'px';
+      }
+    });
+  }
+
+  /* -----------------------
+     3) init
+  ----------------------- */
+  function init() {
+    neutralize();
+    bindIframeAutoHeight();
+  }
+
+  if (document.readyState !== 'loading') {
+    init();
+  } else {
+    document.addEventListener('DOMContentLoaded', init);
+  }
+
+})();
+</script>
